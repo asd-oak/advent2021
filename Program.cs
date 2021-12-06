@@ -426,4 +426,59 @@ app.MapGet("/day5-2", () =>
 
 });
 
+app.MapGet("/day6-1", () =>
+{
+    var filePath = System.IO.Path.Combine(builder.Environment.ContentRootPath, @"input\day6.txt");
+    var fishAges = File
+        .ReadLines(filePath)
+        .Select(row => row
+            .Split(",", StringSplitOptions.RemoveEmptyEntries)
+            .Select(int.Parse))
+        .First().ToList();
+
+    for(var i = 0; i < 80; i++) {
+        var newFishCount = fishAges.Count(fishAge => fishAge == 0);
+        for (var fish = 0; fish < fishAges.Count; fish++) {
+            fishAges[fish]--;
+            if (fishAges[fish] < 0)  {
+                fishAges[fish] = 6;
+            }
+        }
+        var newFish = new List<int>();
+        for(var k = 0; k < newFishCount; k++) {
+            newFish.Add(8);
+        }
+        fishAges.AddRange(newFish);
+    }
+
+    return fishAges.Count; //360761
+
+});
+
+app.MapGet("/day6-2", () =>
+{
+    var filePath = System.IO.Path.Combine(builder.Environment.ContentRootPath, @"input\day6.txt");
+    var fishAges = File
+        .ReadLines(filePath)
+        .Select(row => row
+            .Split(",", StringSplitOptions.RemoveEmptyEntries)
+            .Select(int.Parse))
+        .First().ToList();
+
+    var fishCounts = new Dictionary<int,long>();
+    for (var i = 0; i <= 8; i++) {
+        fishCounts[i] = fishAges.Count(fa => fa == i);
+    }
+
+    for(var i = 0; i < 256; i++) {
+        var newFishCount = fishCounts[0];
+        for (var j = 0; j < 8; j++) {
+            fishCounts[j] = fishCounts[j+1];
+        }
+        fishCounts[6] += newFishCount;
+        fishCounts[8] = newFishCount;
+    }
+    return fishCounts.Values.Sum(); //1632779838045
+});
+
 app.Run();
