@@ -482,5 +482,3 @@ app.MapGet("/day6-2", () =>
 });
 
 app.Run();
-
-public class TestsHook{}
