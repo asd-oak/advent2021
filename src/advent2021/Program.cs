@@ -481,4 +481,61 @@ app.MapGet("/day6-2", () =>
     return fishCounts.Values.Sum(); //1632779838045
 });
 
+app.MapGet("/day7-1", () =>
+{
+    var filePath = System.IO.Path.Combine(builder.Environment.ContentRootPath, @"input\day7.txt");
+    var crabXPositions = File
+        .ReadLines(filePath)
+        .Select(row => row
+            .Split(",", StringSplitOptions.RemoveEmptyEntries)
+            .Select(long.Parse))
+        .First().OrderBy(i => i).ToList();
+    
+    var maxPosition = crabXPositions.Max();
+
+    var bestPosition = 0;
+    var bestFuel = long.MaxValue;
+    var medianPosition = crabXPositions[(crabXPositions.Count)/2]; // Suspect this is the optimal position after sorting, but just brute force for now
+    for(var i = 0; i < maxPosition; i++) {
+        var fuelAmount = crabXPositions.Select(pos => Math.Abs(pos - i)).Sum();
+        if(fuelAmount < bestFuel) {
+            bestPosition = i;
+            bestFuel = fuelAmount;
+        }
+    }
+    
+    return bestFuel; //345197
+});
+
+app.MapGet("/day7-2", () =>
+{
+    var filePath = System.IO.Path.Combine(builder.Environment.ContentRootPath, @"input\day7.txt");
+    var crabXPositions = File
+        .ReadLines(filePath)
+        .Select(row => row
+            .Split(",", StringSplitOptions.RemoveEmptyEntries)
+            .Select(long.Parse))
+        .First().OrderBy(i => i).ToList();
+    
+    var maxPosition = crabXPositions.Max();
+
+    var bestPosition = 0;
+    var bestFuel = long.MaxValue;
+    var medianPosition = (crabXPositions.Count)/2;
+    for(var i = 0; i < maxPosition; i++) {
+        var fuelAmount = crabXPositions.Select(pos => {
+            // 1 + 2 + 3 + 4 + ... n = n(n+1)/2
+            var distance = Math.Abs(pos - i);
+            var fuelCost = distance*(distance+1)/2;
+            return fuelCost;
+            }).Sum();
+        if(fuelAmount < bestFuel) {
+            bestPosition = i;
+            bestFuel = fuelAmount;
+        }
+    }
+    
+    return bestFuel; //96361606
+});
+
 app.Run();

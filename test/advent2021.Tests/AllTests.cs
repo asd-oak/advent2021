@@ -100,4 +100,19 @@ public class AllTests
 
         Assert.Equal("1632779838045", responseContent);
     }
+
+    [Fact]
+    public async void TestDay7Async()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync("/day7-1");
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal("345197", responseContent);
+
+        response = await client.GetAsync("/day7-2");
+        responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal("96361606", responseContent);
+    }
 }
