@@ -185,4 +185,29 @@ public class AllTests
 
         Assert.Equal("96361606", responseContent);
     }
+
+    [Fact]
+    public async void TestDay8SevenSegmentSearchAsync()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync("/Day8/Part1-Sample");
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal("26", responseContent);
+
+        response = await client.GetAsync("/Day8/Part1");
+        responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal("543", responseContent);
+
+        response = await client.GetAsync("/Day8/Part2-Sample");
+        responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal("61229", responseContent);
+
+        response = await client.GetAsync("/Day8/Part2");
+        responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal("994266", responseContent);
+    }
 }
