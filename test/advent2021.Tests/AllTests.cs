@@ -11,6 +11,8 @@ public class AllTests
         _factory = new WebApplicationFactory<Program>();
     }
 
+    // [Theory]
+    // [InlineData("Part1-Sample","7")]
     [Fact]
     public async void TestDay1SonarSweepAsync()
     {
@@ -234,5 +236,30 @@ public class AllTests
         responseContent = await response.Content.ReadAsStringAsync();
 
         Assert.Equal("821560", responseContent);
+    }
+
+    [Fact]
+    public async void TestDay10SyntaxScoringAsync()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync("/Day10/Part1-Sample");
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal("26397", responseContent);
+
+        response = await client.GetAsync("/Day10/Part1");
+        responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal("389589", responseContent);
+
+        response = await client.GetAsync("/Day10/Part2-Sample");
+        responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal("288957", responseContent);
+
+        response = await client.GetAsync("/Day10/Part2");
+        responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal("1190420163", responseContent);
     }
 }
