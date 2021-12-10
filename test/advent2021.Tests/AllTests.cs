@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Testing;
+using System.Collections.Generic;
 using Xunit;
 
 namespace advent2021.Tests;
@@ -6,260 +7,163 @@ namespace advent2021.Tests;
 public class AllTests
 {
     private readonly WebApplicationFactory<Program> _factory;
+
+    public enum Puzzle {
+        Part1Sample,
+        Part1,
+        Part2Sample,
+        Part2
+    };
+
+    public Dictionary<Puzzle,string> _queryParts = new Dictionary<Puzzle, string>() {
+        {Puzzle.Part1Sample, "Part1-Sample"},
+        {Puzzle.Part1, "Part1"},
+        {Puzzle.Part2Sample, "Part2-Sample"},
+        {Puzzle.Part2, "Part2"},
+    };
+
     public AllTests()
     {
         _factory = new WebApplicationFactory<Program>();
     }
 
-    // [Theory]
-    // [InlineData("Part1-Sample","7")]
-    [Fact]
-    public async void TestDay1SonarSweepAsync()
+    [Theory]
+    [InlineData(Puzzle.Part1Sample,"7")]
+    [InlineData(Puzzle.Part1,"1215")]
+    [InlineData(Puzzle.Part2Sample,"5")]
+    [InlineData(Puzzle.Part2,"1150")]
+    public async void TestDay1SonarSweepAsync(Puzzle part, string answer)
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/Day1/Part1-Sample");
+        var response = await client.GetAsync($"/Day1/{_queryParts[part]}");
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        Assert.Equal("7", responseContent);
-
-        response = await client.GetAsync("/Day1/Part1");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("1215", responseContent);
-
-        response = await client.GetAsync("/Day1/Part2-Sample");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("5", responseContent);
-
-        response = await client.GetAsync("/Day1/Part2");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("1150", responseContent);
+        Assert.Equal(answer, responseContent);
     }
 
-    [Fact]
-    public async void TestDay2DiveAsync()
+    [Theory]
+    [InlineData(Puzzle.Part1Sample,"150")]
+    [InlineData(Puzzle.Part1,"1693300")]
+    [InlineData(Puzzle.Part2Sample,"900")]
+    [InlineData(Puzzle.Part2,"1857958050")]
+    public async void TestDay2DiveAsync(Puzzle part, string answer)
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/Day2/Part1-Sample");
+        var response = await client.GetAsync($"/Day2/{_queryParts[part]}");
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        Assert.Equal("150", responseContent);
-
-        response = await client.GetAsync("/Day2/Part1");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("1693300", responseContent);
-
-        response = await client.GetAsync("/Day2/Part2-Sample");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("900", responseContent);
-
-        response = await client.GetAsync("/Day2/Part2");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("1857958050", responseContent);
+        Assert.Equal(answer, responseContent);
     }
 
-    [Fact]
-    public async void TestDay3BinaryDiagnosticAsync()
+    [Theory]
+    [InlineData(Puzzle.Part1Sample,"198")]
+    [InlineData(Puzzle.Part1,"3923414")]
+    [InlineData(Puzzle.Part2Sample,"230")]
+    [InlineData(Puzzle.Part2,"5852595")]
+    public async void TestDay3BinaryDiagnosticAsync(Puzzle part, string answer)
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/Day3/Part1-Sample");
+        var response = await client.GetAsync($"/Day3/{_queryParts[part]}");
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        Assert.Equal("198", responseContent);
-
-        response = await client.GetAsync("/Day3/Part1");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("3923414", responseContent);
-
-        response = await client.GetAsync("/Day3/Part2-Sample");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("230", responseContent);
-
-        response = await client.GetAsync("/Day3/Part2");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("5852595", responseContent);
+        Assert.Equal(answer, responseContent);
     }
 
-    [Fact]
-    public async void TestDay4GiantSquidAsync()
+    [Theory]
+    [InlineData(Puzzle.Part1Sample,"4512")]
+    [InlineData(Puzzle.Part1,"34506")]
+    [InlineData(Puzzle.Part2Sample,"1924")]
+    [InlineData(Puzzle.Part2,"7686")]
+    public async void TestDay4GiantSquidAsync(Puzzle part, string answer)
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/Day4/Part1-Sample");
+        var response = await client.GetAsync($"/Day4/{_queryParts[part]}");
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        Assert.Equal("4512", responseContent);
-
-        response = await client.GetAsync("/Day4/Part1");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("34506", responseContent);
-
-        response = await client.GetAsync("/Day4/Part2-Sample");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("1924", responseContent);
-
-        response = await client.GetAsync("/Day4/Part2");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("7686", responseContent);
+        Assert.Equal(answer, responseContent);
     }
 
-    [Fact]
-    public async void TestDay5HydrothermalVentureAsync()
+    [Theory]
+    [InlineData(Puzzle.Part1Sample,"5")]
+    [InlineData(Puzzle.Part1,"5167")]
+    [InlineData(Puzzle.Part2Sample,"12")]
+    [InlineData(Puzzle.Part2,"17604")]
+    public async void TestDay5HydrothermalVentureAsync(Puzzle part, string answer)
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/Day5/Part1-Sample");
+        var response = await client.GetAsync($"/Day5/{_queryParts[part]}");
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        Assert.Equal("5", responseContent);
-
-        response = await client.GetAsync("/Day5/Part1");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("5167", responseContent);
-
-        response = await client.GetAsync("/Day5/Part2-Sample");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("12", responseContent);
-
-        response = await client.GetAsync("/Day5/Part2");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("17604", responseContent);
+        Assert.Equal(answer, responseContent);
     }
 
-    [Fact]
-    public async void TestDay6LanternfishAsync()
+    [Theory]
+    [InlineData(Puzzle.Part1Sample,"5934")]
+    [InlineData(Puzzle.Part1,"360761")]
+    [InlineData(Puzzle.Part2Sample,"26984457539")]
+    [InlineData(Puzzle.Part2,"1632779838045")]
+    public async void TestDay6LanternfishAsync(Puzzle part, string answer)
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/Day6/Part1-Sample");
+        var response = await client.GetAsync($"/Day6/{_queryParts[part]}");
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        Assert.Equal("5934", responseContent);
-
-        response = await client.GetAsync("/Day6/Part1");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("360761", responseContent);
-
-        response = await client.GetAsync("/Day6/Part2-Sample");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("26984457539", responseContent);
-
-        response = await client.GetAsync("/Day6/Part2");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("1632779838045", responseContent);
+        Assert.Equal(answer, responseContent);
     }
 
-    [Fact]
-    public async void TestDay7TheTreacheryOfWhalesAsync()
+    [Theory]
+    [InlineData(Puzzle.Part1Sample,"37")]
+    [InlineData(Puzzle.Part1,"345197")]
+    [InlineData(Puzzle.Part2Sample,"168")]
+    [InlineData(Puzzle.Part2,"96361606")]
+    public async void TestDay7TheTreacheryOfWhalesAsync(Puzzle part, string answer)
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/Day7/Part1-Sample");
+        var response = await client.GetAsync($"/Day7/{_queryParts[part]}");
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        Assert.Equal("37", responseContent);
-
-        response = await client.GetAsync("/Day7/Part1");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("345197", responseContent);
-
-        response = await client.GetAsync("/Day7/Part2-Sample");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("168", responseContent);
-
-        response = await client.GetAsync("/Day7/Part2");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("96361606", responseContent);
+        Assert.Equal(answer, responseContent);
     }
 
-    [Fact]
-    public async void TestDay8SevenSegmentSearchAsync()
+    [Theory]
+    [InlineData(Puzzle.Part1Sample,"26")]
+    [InlineData(Puzzle.Part1,"543")]
+    [InlineData(Puzzle.Part2Sample,"61229")]
+    [InlineData(Puzzle.Part2,"994266")]
+    public async void TestDay8SevenSegmentSearchAsync(Puzzle part, string answer)
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/Day8/Part1-Sample");
+        var response = await client.GetAsync($"/Day8/{_queryParts[part]}");
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        Assert.Equal("26", responseContent);
-
-        response = await client.GetAsync("/Day8/Part1");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("543", responseContent);
-
-        response = await client.GetAsync("/Day8/Part2-Sample");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("61229", responseContent);
-
-        response = await client.GetAsync("/Day8/Part2");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("994266", responseContent);
+        Assert.Equal(answer, responseContent);
     }
 
-    [Fact]
-    public async void TestDay9SmokeBasinAsync()
+    [Theory]
+    [InlineData(Puzzle.Part1Sample,"15")]
+    [InlineData(Puzzle.Part1,"631")]
+    [InlineData(Puzzle.Part2Sample,"1134")]
+    [InlineData(Puzzle.Part2,"821560")]
+    public async void TestDay9SmokeBasinAsync(Puzzle part, string answer)
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/Day9/Part1-Sample");
+        var response = await client.GetAsync($"/Day9/{_queryParts[part]}");
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        Assert.Equal("15", responseContent);
-
-        response = await client.GetAsync("/Day9/Part1");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("631", responseContent);
-
-        response = await client.GetAsync("/Day9/Part2-Sample");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("1134", responseContent);
-
-        response = await client.GetAsync("/Day9/Part2");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("821560", responseContent);
+        Assert.Equal(answer, responseContent);
     }
 
-    [Fact]
-    public async void TestDay10SyntaxScoringAsync()
+    [Theory]
+    [InlineData(Puzzle.Part1Sample,"26397")]
+    [InlineData(Puzzle.Part1,"389589")]
+    [InlineData(Puzzle.Part2Sample,"288957")]
+    [InlineData(Puzzle.Part2,"1190420163")]
+    public async void TestDay10SyntaxScoringAsync(Puzzle part, string answer)
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/Day10/Part1-Sample");
+        var response = await client.GetAsync($"/Day10/{_queryParts[part]}");
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        Assert.Equal("26397", responseContent);
-
-        response = await client.GetAsync("/Day10/Part1");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("389589", responseContent);
-
-        response = await client.GetAsync("/Day10/Part2-Sample");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("288957", responseContent);
-
-        response = await client.GetAsync("/Day10/Part2");
-        responseContent = await response.Content.ReadAsStringAsync();
-
-        Assert.Equal("1190420163", responseContent);
+        Assert.Equal(answer, responseContent);
     }
 }
