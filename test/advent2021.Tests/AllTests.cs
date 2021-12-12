@@ -10,15 +10,23 @@ public class AllTests
 
     public enum Puzzle {
         Part1Sample,
+        Part1Sample2,
+        Part1Sample3,
         Part1,
         Part2Sample,
+        Part2Sample2,
+        Part2Sample3,
         Part2
     };
 
     public Dictionary<Puzzle,string> _queryParts = new Dictionary<Puzzle, string>() {
         {Puzzle.Part1Sample, "Part1-Sample"},
+        {Puzzle.Part1Sample2, "Part1-Sample2"},
+        {Puzzle.Part1Sample3, "Part1-Sample3"},
         {Puzzle.Part1, "Part1"},
         {Puzzle.Part2Sample, "Part2-Sample"},
+        {Puzzle.Part2Sample2, "Part2-Sample2"},
+        {Puzzle.Part2Sample3, "Part2-Sample3"},
         {Puzzle.Part2, "Part2"},
     };
 
@@ -176,6 +184,24 @@ public class AllTests
     {
         var client = _factory.CreateClient();
         var response = await client.GetAsync($"/Day11/{_queryParts[part]}");
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal(answer, responseContent);
+    }
+
+    [Theory]
+    [InlineData(Puzzle.Part1Sample,"10")]
+    [InlineData(Puzzle.Part1Sample2,"19")]
+    [InlineData(Puzzle.Part1Sample3,"226")]
+    [InlineData(Puzzle.Part1,"5756")]
+    [InlineData(Puzzle.Part2Sample,"36")]
+    [InlineData(Puzzle.Part2Sample2,"103")]
+    [InlineData(Puzzle.Part2Sample3,"3509")]
+    [InlineData(Puzzle.Part2,"144603")]
+    public async void TestDay12PassagePathingAsync(Puzzle part, string answer)
+    {
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync($"/Day12/{_queryParts[part]}");
         var responseContent = await response.Content.ReadAsStringAsync();
 
         Assert.Equal(answer, responseContent);
