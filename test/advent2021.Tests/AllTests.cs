@@ -206,4 +206,17 @@ public class AllTests
 
         Assert.Equal(answer, responseContent);
     }
+
+    [Theory]
+    [InlineData(Puzzle.Part1Sample,"17")]
+    [InlineData(Puzzle.Part1,"666")]
+    // No part 2 tests - return bitmap for user to view
+    public async void TestDay13TransparentOrigamiAsync(Puzzle part, string answer)
+    {
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync($"/Day13/{_queryParts[part]}");
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal(answer, responseContent);
+    }
 }
