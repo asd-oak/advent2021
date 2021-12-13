@@ -1,6 +1,4 @@
-using System.Collections.Concurrent;
-using advent2021.Models;
-using System.Drawing;
+using SixLabors.ImageSharp;
 
 namespace advent2021.Controllers;
 
@@ -324,18 +322,18 @@ public class Day13Controller : ControllerBase
             }
         });
 
-        var responseImage = new Bitmap(paperGrid.GetLength(1), paperGrid.GetLength(0));
+        var responseImage = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(paperGrid.GetLength(1), paperGrid.GetLength(0));
         for (var y = 0; y < paperGrid.GetLength(0); y++)
         {
             for (var x = 0; x < paperGrid.GetLength(1); x++)
             {
                 if(paperGrid[y,x]) {
-                    responseImage.SetPixel(x,y,Color.AliceBlue);
+                    responseImage[x,y] = SixLabors.ImageSharp.Color.AliceBlue;
                 }
             }
         }
         Stream responseFile = new MemoryStream();
-        responseImage.Save(responseFile,System.Drawing.Imaging.ImageFormat.Jpeg);
+        responseImage.SaveAsJpeg(responseFile);
         responseFile.Position = 0;
         return File(responseFile, "image/jpeg");
     }
