@@ -1,4 +1,5 @@
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace advent2021.Controllers;
 
@@ -221,6 +222,7 @@ public class Day13Controller : ControllerBase
 
         // Array.GetLength(0) = rows = Y
         // Array.GetLength(1) = cols = X
+        var grids = new List<bool[,]>();
         var paperGrid = new bool[pointsList.Select(item => item.Last()).Max() + 1, pointsList.Select(item => item.First()).Max() + 1];
 
         // 2d array indexing is (y,x)
@@ -234,6 +236,7 @@ public class Day13Controller : ControllerBase
 
         foldInstructions.ForEach(instructionTuple =>
         {
+            grids.Add(paperGrid);
             var orientation = instructionTuple.Item1;
             var location = instructionTuple.Item2;
             if (orientation == FoldDirection.VerticalUp)
@@ -321,21 +324,48 @@ public class Day13Controller : ControllerBase
                 paperGrid = newGrid;
             }
         });
+        grids.Add(paperGrid);
 
-        var responseImage = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(paperGrid.GetLength(1), paperGrid.GetLength(0));
-        for (var y = 0; y < paperGrid.GetLength(0); y++)
-        {
-            for (var x = 0; x < paperGrid.GetLength(1); x++)
+        var scaleUpFactor = 4;
+        var gif = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(paperGrid.GetLength(1)*scaleUpFactor, paperGrid.GetLength(0)*scaleUpFactor);
+
+        grids.ForEach(grid => {
+            var imageFrame = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(grid.GetLength(1), grid.GetLength(0));
+            for (var y = 0; y < grid.GetLength(0); y++)
             {
-                if(paperGrid[y,x]) {
-                    responseImage[x,y] = SixLabors.ImageSharp.Color.AliceBlue;
+                for (var x = 0; x < grid.GetLength(1); x++)
+                {
+                    if(grid[y,x]) {
+                        imageFrame[x,y] = SixLabors.ImageSharp.Color.AliceBlue;
+                    } else {
+                        imageFrame[x,y] = SixLabors.ImageSharp.Color.DarkGray;
+                    }
                 }
             }
-        }
+            imageFrame.Mutate(i => i.Resize(paperGrid.GetLength(1)*scaleUpFactor, paperGrid.GetLength(0)*scaleUpFactor));
+            gif.Frames.AddFrame(imageFrame.Frames[0]);
+        });      
         Stream responseFile = new MemoryStream();
-        responseImage.SaveAsJpeg(responseFile);
+        gif.SaveAsGif(responseFile);
         responseFile.Position = 0;
-        return File(responseFile, "image/jpeg");
+        return File(responseFile, "image/gif");  
+
+        // Still image
+        //
+        // var responseImage = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(paperGrid.GetLength(1), paperGrid.GetLength(0));
+        // for (var y = 0; y < paperGrid.GetLength(0); y++)
+        // {
+        //     for (var x = 0; x < paperGrid.GetLength(1); x++)
+        //     {
+        //         if(paperGrid[y,x]) {
+        //             responseImage[x,y] = SixLabors.ImageSharp.Color.AliceBlue;
+        //         }
+        //     }
+        // }
+        // Stream responseFile = new MemoryStream();
+        // responseImage.SaveAsJpeg(responseFile);
+        // responseFile.Position = 0;
+        // return File(responseFile, "image/jpeg");
     }
 
 }
