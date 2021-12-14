@@ -219,4 +219,18 @@ public class AllTests
 
         Assert.Equal(answer, responseContent);
     }
+
+    [Theory]
+    [InlineData(Puzzle.Part1Sample,"1588")]
+    [InlineData(Puzzle.Part1,"2375")]
+    [InlineData(Puzzle.Part2Sample,"2188189693529")]
+    [InlineData(Puzzle.Part2,"1976896901756")]
+    public async void TestDay14ExtendedPolymerizationAsync(Puzzle part, string answer)
+    {
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync($"/Day14/{_queryParts[part]}");
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal(answer, responseContent);
+    }
 }
