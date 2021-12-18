@@ -4,7 +4,7 @@ using Xunit;
 
 namespace advent2021.Tests;
 
-public class AllTests
+public class AllTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _factory;
 
@@ -30,9 +30,9 @@ public class AllTests
         {Puzzle.Part2, "Part2"},
     };
 
-    public AllTests()
+    public AllTests(WebApplicationFactory<Program> factory)
     {
-        _factory = new WebApplicationFactory<Program>();
+        _factory = factory;
     }
 
     [Theory]

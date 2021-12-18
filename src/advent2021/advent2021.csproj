@@ -6,13 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>3b23aa4c-2f8f-486d-b4ab-e8f99912f807</UserSecretsId>
   </PropertyGroup>
-  
-  <ItemGroup>
-     <InternalsVisibleTo Include="advent2021.Tests" />
-  </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Honeycomb.OpenTelemetry" Version="0.16.0-beta" />
+    <PackageReference Include="Honeycomb.OpenTelemetry" Version="0.17.0-beta" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
   </ItemGroup>
