@@ -6,14 +6,17 @@ namespace advent2021.Controllers;
 public class Day9Controller : ControllerBase
 {
 
-    public Day9Controller(IWebHostEnvironment environment)
+    public Day9Controller(IWebHostEnvironment environment, Tracer trace)
     {
         SampleFilePath = Path.Combine(environment.ContentRootPath, @"input\day9-sample.txt");
         FilePath = Path.Combine(environment.ContentRootPath, @"input\day9.txt");
+        RequestTracer = trace;
     }
 
     private string SampleFilePath { get; set; }
     private string FilePath { get; set; }
+
+    private Tracer RequestTracer { get; set; }
 
 
     [HttpGet("Part1-Sample")]
@@ -131,7 +134,8 @@ public class Day9Controller : ControllerBase
                         {
                             continue;
                         }
-                        if(taggedSomething == false && nonEmptyFound == false) {
+                        if (taggedSomething == false && nonEmptyFound == false)
+                        {
                             heightMatrix[i, j] = '1';
                             taggedSomething = true;
                         }

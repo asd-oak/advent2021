@@ -6,14 +6,17 @@ namespace advent2021.Controllers;
 public class Day8Controller : ControllerBase
 {
 
-    public Day8Controller(IWebHostEnvironment environment)
+    public Day8Controller(IWebHostEnvironment environment, Tracer trace)
     {
         SampleFilePath = Path.Combine(environment.ContentRootPath, @"input\day8-sample.txt");
         FilePath = Path.Combine(environment.ContentRootPath, @"input\day8.txt");
+        RequestTracer = trace;
     }
 
     private string SampleFilePath { get; set; }
     private string FilePath { get; set; }
+
+    private Tracer RequestTracer { get; set; }
 
 
     [HttpGet("Part1-Sample")]
@@ -37,16 +40,17 @@ public class Day8Controller : ControllerBase
                     .Select(rowPart => rowPart
                         .Trim()
                         .Split(" ", StringSplitOptions.RemoveEmptyEntries)
-                        .Select(displayValue => {
+                        .Select(displayValue =>
+                        {
                             var charred = displayValue.ToCharArray().ToList();
                             charred.Sort();
                             return new string(charred.ToArray());
                         }))
                 ).ToList();
-        var matches = new List<int> {2,3,4,7};
+        var matches = new List<int> { 2, 3, 4, 7 };
         var findings = 0;
         displayPatterns.ForEach(row => findings += row.Last().Where(pattern => matches.Contains(pattern.Length)).Count());
-       
+
         return findings; //543
     }
 
@@ -59,7 +63,8 @@ public class Day8Controller : ControllerBase
                     .Select(rowPart => rowPart
                         .Trim()
                         .Split(" ", StringSplitOptions.RemoveEmptyEntries)
-                        .Select(displayValue => {
+                        .Select(displayValue =>
+                        {
                             var charred = displayValue.ToCharArray().ToList();
                             charred.Sort();
                             return charred;
@@ -98,18 +103,18 @@ public class Day8Controller : ControllerBase
 
             var numberNine = decodedPatterns.Where(pattern => pattern.Count == 6 && pattern.Except(numberFour).Count() == 2).Single();
             decodedRow[new string(numberNine.ToArray())] = 9;
-            segmentMap['g'] = numberNine.Except(numberFour).Except(new List<char> {segmentMap['a']}).Single();
+            segmentMap['g'] = numberNine.Except(numberFour).Except(new List<char> { segmentMap['a'] }).Single();
 
             var numberEight = decodedPatterns.Where(pattern => pattern.Count == 7).Single();
             decodedRow[new string(numberEight.ToArray())] = 8;
-            segmentMap['e'] = numberEight.Except(numberFour).Except(new List<char> {segmentMap['a']}).Except(new List<char> {segmentMap['g']}).Single();
+            segmentMap['e'] = numberEight.Except(numberFour).Except(new List<char> { segmentMap['a'] }).Except(new List<char> { segmentMap['g'] }).Single();
 
             var numberTwo = decodedPatterns.Where(pattern => pattern.Count == 5 && pattern.Contains(segmentMap['a']) && pattern.Contains(segmentMap['g']) && pattern.Contains(segmentMap['e'])).Single();
             decodedRow[new string(numberTwo.ToArray())] = 2;
-            segmentMap['c'] = numberTwo.Except(new List<char> {segmentMap['a']}).Except(new List<char> {segmentMap['g']}).Except(new List<char> {segmentMap['e']}).Intersect(numberOne).Single();
-            segmentMap['f'] = numberOne.Except(new List<char> {segmentMap['c']}).Single();
-            segmentMap['d'] = numberTwo.Except(new List<char> {segmentMap['a']}).Except(new List<char> {segmentMap['c']}).Except(new List<char> {segmentMap['e']}).Except(new List<char> {segmentMap['g']}).Single();
-            segmentMap['b'] = numberEight.Except(new List<char> {segmentMap['a']}).Except(new List<char> {segmentMap['c']}).Except(new List<char> {segmentMap['d']}).Except(new List<char> {segmentMap['e']}).Except(new List<char> {segmentMap['f']}).Except(new List<char> {segmentMap['g']}).Single();
+            segmentMap['c'] = numberTwo.Except(new List<char> { segmentMap['a'] }).Except(new List<char> { segmentMap['g'] }).Except(new List<char> { segmentMap['e'] }).Intersect(numberOne).Single();
+            segmentMap['f'] = numberOne.Except(new List<char> { segmentMap['c'] }).Single();
+            segmentMap['d'] = numberTwo.Except(new List<char> { segmentMap['a'] }).Except(new List<char> { segmentMap['c'] }).Except(new List<char> { segmentMap['e'] }).Except(new List<char> { segmentMap['g'] }).Single();
+            segmentMap['b'] = numberEight.Except(new List<char> { segmentMap['a'] }).Except(new List<char> { segmentMap['c'] }).Except(new List<char> { segmentMap['d'] }).Except(new List<char> { segmentMap['e'] }).Except(new List<char> { segmentMap['f'] }).Except(new List<char> { segmentMap['g'] }).Single();
 
             var numberZero = new List<char> {
                 segmentMap['a'],
@@ -159,15 +164,16 @@ public class Day8Controller : ControllerBase
 
         var sum = 0;
 
-        for (var i = 0; i < displayPatterns.Count; i++) {
+        for (var i = 0; i < displayPatterns.Count; i++)
+        {
             var legend = decoded[i];
             var numbers = displayPatterns[i].Last().ToList();
-            var number = 
-                1000 * legend[new string(numbers[0].ToArray())] 
-                + 100 * legend[new string(numbers[1].ToArray())] 
-                + 10 * legend[new string(numbers[2].ToArray())] 
+            var number =
+                1000 * legend[new string(numbers[0].ToArray())]
+                + 100 * legend[new string(numbers[1].ToArray())]
+                + 10 * legend[new string(numbers[2].ToArray())]
                 + legend[new string(numbers[3].ToArray())];
-                sum += number;
+            sum += number;
         }
 
         return sum;

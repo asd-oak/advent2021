@@ -3,8 +3,8 @@ public class Day12Cavern
 {
 
     public string Id { get; set; }
-    
-    public List<Day12Cavern> NeighboringCaverns {get;set;}
+
+    public List<Day12Cavern> NeighboringCaverns { get; set; }
 
     public Day12Cavern(string id)
     {
@@ -12,11 +12,14 @@ public class Day12Cavern
         NeighboringCaverns = new List<Day12Cavern>();
     }
 
-    public void AddReciprocalLink(Day12Cavern neighbor) {
-        if(!NeighboringCaverns.Any(cavern => cavern.Id == neighbor.Id)) {
+    public void AddReciprocalLink(Day12Cavern neighbor)
+    {
+        if (!NeighboringCaverns.Any(cavern => cavern.Id == neighbor.Id))
+        {
             NeighboringCaverns.Add(neighbor);
         }
-        if(!neighbor.NeighboringCaverns.Any(cavern => cavern.Id == Id)) {
+        if (!neighbor.NeighboringCaverns.Any(cavern => cavern.Id == Id))
+        {
             neighbor.AddReciprocalLink(this);
         }
     }

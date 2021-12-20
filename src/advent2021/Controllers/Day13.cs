@@ -9,14 +9,17 @@ namespace advent2021.Controllers;
 public class Day13Controller : ControllerBase
 {
 
-    public Day13Controller(IWebHostEnvironment environment)
+    public Day13Controller(IWebHostEnvironment environment, Tracer trace)
     {
         SampleFilePath = Path.Combine(environment.ContentRootPath, @"input\Day13-sample.txt");
         FilePath = Path.Combine(environment.ContentRootPath, @"input\Day13.txt");
+        RequestTracer = trace;
     }
 
     private string SampleFilePath { get; set; }
     private string FilePath { get; set; }
+
+    private Tracer RequestTracer { get; set; }
 
 
     [HttpGet("Part1-Sample")]
@@ -327,28 +330,32 @@ public class Day13Controller : ControllerBase
         grids.Add(paperGrid);
 
         var scaleUpFactor = 4;
-        var gif = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(paperGrid.GetLength(1)*scaleUpFactor, paperGrid.GetLength(0)*scaleUpFactor);
+        var gif = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(paperGrid.GetLength(1) * scaleUpFactor, paperGrid.GetLength(0) * scaleUpFactor);
 
-        grids.ForEach(grid => {
+        grids.ForEach(grid =>
+        {
             var imageFrame = new Image<SixLabors.ImageSharp.PixelFormats.Rgba32>(grid.GetLength(1), grid.GetLength(0));
             for (var y = 0; y < grid.GetLength(0); y++)
             {
                 for (var x = 0; x < grid.GetLength(1); x++)
                 {
-                    if(grid[y,x]) {
-                        imageFrame[x,y] = SixLabors.ImageSharp.Color.AliceBlue;
-                    } else {
-                        imageFrame[x,y] = SixLabors.ImageSharp.Color.DarkGray;
+                    if (grid[y, x])
+                    {
+                        imageFrame[x, y] = SixLabors.ImageSharp.Color.AliceBlue;
+                    }
+                    else
+                    {
+                        imageFrame[x, y] = SixLabors.ImageSharp.Color.DarkGray;
                     }
                 }
             }
-            imageFrame.Mutate(i => i.Resize(paperGrid.GetLength(1)*scaleUpFactor, paperGrid.GetLength(0)*scaleUpFactor));
+            imageFrame.Mutate(i => i.Resize(paperGrid.GetLength(1) * scaleUpFactor, paperGrid.GetLength(0) * scaleUpFactor));
             gif.Frames.AddFrame(imageFrame.Frames[0]);
-        });      
+        });
         Stream responseFile = new MemoryStream();
         gif.SaveAsGif(responseFile);
         responseFile.Position = 0;
-        return File(responseFile, "image/gif");  
+        return File(responseFile, "image/gif");
 
         // Still image
         //

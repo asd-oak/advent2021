@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using advent2021.Models;
 
 namespace advent2021.Controllers;
@@ -9,18 +8,21 @@ namespace advent2021.Controllers;
 public class Day12Controller : ControllerBase
 {
 
-    public Day12Controller(IWebHostEnvironment environment)
+    public Day12Controller(IWebHostEnvironment environment, Tracer trace)
     {
         SampleFilePath = Path.Combine(environment.ContentRootPath, @"input\Day12-sample.txt");
         SampleFilePath2 = Path.Combine(environment.ContentRootPath, @"input\Day12-sample2.txt");
         SampleFilePath3 = Path.Combine(environment.ContentRootPath, @"input\Day12-sample3.txt");
         FilePath = Path.Combine(environment.ContentRootPath, @"input\Day12.txt");
+        RequestTracer = trace;
     }
 
     private string SampleFilePath { get; set; }
     private string SampleFilePath2 { get; set; }
     private string SampleFilePath3 { get; set; }
     private string FilePath { get; set; }
+
+    private Tracer RequestTracer { get; set; }
 
 
     [HttpGet("Part1-Sample")]
@@ -49,8 +51,10 @@ public class Day12Controller : ControllerBase
     [HttpGet("Part2")]
     public long Part2() => SolvePart2(FilePath);
 
-    private void LogEndAndBackup(Day12Cavern currentCavern, Day12Path currentItinerary, SortedSet<string> pathLog) {
-        if(!pathLog.Contains(currentItinerary.CavernItineraryFlat)) {
+    private void LogEndAndBackup(Day12Cavern currentCavern, Day12Path currentItinerary, SortedSet<string> pathLog)
+    {
+        if (!pathLog.Contains(currentItinerary.CavernItineraryFlat))
+        {
             pathLog.Add(currentItinerary.CavernItineraryFlat);
         }
         var lastCavern = currentItinerary.Backtrack();
@@ -58,7 +62,8 @@ public class Day12Controller : ControllerBase
 
     private void AdvanceCavernJourneyPart1(Day12Cavern currentCavern, Day12Path currentItinerary, SortedSet<string> pathLog)
     {
-        if(currentCavern.Id == "end" || pathLog.Contains(currentItinerary.CavernItineraryFlat)) {
+        if (currentCavern.Id == "end" || pathLog.Contains(currentItinerary.CavernItineraryFlat))
+        {
             LogEndAndBackup(currentCavern, currentItinerary, pathLog);
             return;
         }
@@ -73,16 +78,17 @@ public class Day12Controller : ControllerBase
 
             // Tentatively visit
             currentItinerary.AddVisit(nextCavern);
-            AdvanceCavernJourneyPart1(nextCavern, currentItinerary, pathLog);    
+            AdvanceCavernJourneyPart1(nextCavern, currentItinerary, pathLog);
         }
-        
+
         //Nowhere to go from this cavern; log path, back out of this cavern, and see if there is another route in the prior cavern
         LogEndAndBackup(currentCavern, currentItinerary, pathLog);
     }
 
     private void AdvanceCavernJourneyPart2(Day12Cavern currentCavern, Day12Path currentItinerary, SortedSet<string> pathLog)
     {
-        if(currentCavern.Id == "end" || pathLog.Contains(currentItinerary.CavernItineraryFlat)) {
+        if (currentCavern.Id == "end" || pathLog.Contains(currentItinerary.CavernItineraryFlat))
+        {
             LogEndAndBackup(currentCavern, currentItinerary, pathLog);
             return;
         }
@@ -100,9 +106,9 @@ public class Day12Controller : ControllerBase
 
             // Tentatively visit
             currentItinerary.AddVisit(nextCavern);
-            AdvanceCavernJourneyPart2(nextCavern, currentItinerary, pathLog);    
+            AdvanceCavernJourneyPart2(nextCavern, currentItinerary, pathLog);
         }
-        
+
         //Nowhere to go from this cavern; log path, back out of this cavern, and see if there is another route in the prior cavern
         LogEndAndBackup(currentCavern, currentItinerary, pathLog);
     }

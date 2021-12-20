@@ -1,4 +1,5 @@
 global using Microsoft.AspNetCore.Mvc;
+global using OpenTelemetry.Trace;
 global using System.IO;
 
 using Honeycomb.OpenTelemetry;
@@ -24,9 +25,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(options => {
+    app.UseSwaggerUI(options =>
+    {
         options.EnableTryItOutByDefault();
         options.EnableDeepLinking();
+        options.DisplayRequestDuration();
+        options.ConfigObject.AdditionalItems.Add("requestSnippetsEnabled", true);
     });
 }
 

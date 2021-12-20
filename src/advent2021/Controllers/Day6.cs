@@ -6,14 +6,17 @@ namespace advent2021.Controllers;
 public class Day6Controller : ControllerBase
 {
 
-    public Day6Controller(IWebHostEnvironment environment)
+    public Day6Controller(IWebHostEnvironment environment, Tracer trace)
     {
         SampleFilePath = Path.Combine(environment.ContentRootPath, @"input\day6-sample.txt");
         FilePath = Path.Combine(environment.ContentRootPath, @"input\day6.txt");
+        RequestTracer = trace;
     }
 
     private string SampleFilePath { get; set; }
     private string FilePath { get; set; }
+
+    private Tracer RequestTracer { get; set; }
 
 
     [HttpGet("Part1-Sample")]
