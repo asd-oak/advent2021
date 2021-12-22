@@ -249,5 +249,17 @@ public class AllTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.Equal(answer, responseContent);
     }
 
+    [Theory]
+    [InlineData(Puzzle.Part1Sample, "739785")]
+    [InlineData(Puzzle.Part1, "797160")]
+    [InlineData(Puzzle.Part2Sample, "444356092776315")]
+    [InlineData(Puzzle.Part2, "27464148626406")]
+    public async void TestDay21DiracDiceAsync(Puzzle part, string answer)
+    {
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync($"/Day21/{_queryParts[part]}");
+        var responseContent = await response.Content.ReadAsStringAsync();
 
+        Assert.Equal(answer, responseContent);
+    }
 }

@@ -70,7 +70,7 @@ public class Day20Controller : ControllerBase
         var litPixels = CountLitPixesl(updatedGrid);
         span.SetAttribute("litPixels", litPixels);
 
-        return litPixels; // 5687 too high
+        return litPixels;
     }
 
     private bool[,] IterateGrid(string enhancementsMap, bool[,] startingState, int iterationsLeft, bool newGridEmpty, bool isStable)
