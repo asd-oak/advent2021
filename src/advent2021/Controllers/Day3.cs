@@ -6,10 +6,10 @@ namespace advent2021.Controllers;
 public class Day3Controller : ControllerBase
 {
 
-    public Day3Controller(IWebHostEnvironment environment, Tracer trace)
+    public Day3Controller(IWebHostEnvironment environment, Tracer trace, IHttpContextAccessor hca)
     {
-        SampleFilePath = Path.Combine(environment.ContentRootPath, @"input\day3-sample.txt");
-        FilePath = Path.Combine(environment.ContentRootPath, @"input\day3.txt");
+        SampleFilePath = Path.Combine(environment.ContentRootPath, "input", $"{hca.GetControllerName()}-sample.txt");
+        FilePath = Path.Combine(environment.ContentRootPath, "input", $"{hca.GetControllerName()}.txt");
         RequestTracer = trace;
     }
 

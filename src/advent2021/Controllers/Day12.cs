@@ -8,12 +8,12 @@ namespace advent2021.Controllers;
 public class Day12Controller : ControllerBase
 {
 
-    public Day12Controller(IWebHostEnvironment environment, Tracer trace)
+    public Day12Controller(IWebHostEnvironment environment, Tracer trace, IHttpContextAccessor hca)
     {
-        SampleFilePath = Path.Combine(environment.ContentRootPath, @"input\Day12-sample.txt");
-        SampleFilePath2 = Path.Combine(environment.ContentRootPath, @"input\Day12-sample2.txt");
-        SampleFilePath3 = Path.Combine(environment.ContentRootPath, @"input\Day12-sample3.txt");
-        FilePath = Path.Combine(environment.ContentRootPath, @"input\Day12.txt");
+        SampleFilePath = Path.Combine(environment.ContentRootPath, "input", $"{hca.GetControllerName()}-sample.txt");
+        SampleFilePath2 = Path.Combine(environment.ContentRootPath, "input", $"{hca.GetControllerName()}-sample2.txt");
+        SampleFilePath3 = Path.Combine(environment.ContentRootPath, "input", $"{hca.GetControllerName()}-sample3.txt");
+        FilePath = Path.Combine(environment.ContentRootPath, "input", $"{hca.GetControllerName()}.txt");
         RequestTracer = trace;
     }
 
