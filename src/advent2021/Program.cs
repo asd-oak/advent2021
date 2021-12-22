@@ -2,6 +2,7 @@ global using Microsoft.AspNetCore.Mvc;
 global using OpenTelemetry.Trace;
 global using System.IO;
 
+using advent2021.Middleware;
 using Honeycomb.OpenTelemetry;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRequestAttributeTracing();
 
 app.MapControllers();
 
