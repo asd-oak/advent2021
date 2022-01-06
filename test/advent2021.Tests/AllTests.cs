@@ -236,6 +236,20 @@ public class AllTests : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Theory]
+    [InlineData(Puzzle.Part1Sample, "40")]
+    [InlineData(Puzzle.Part1, "717")]
+    [InlineData(Puzzle.Part2Sample, "315")]
+    [InlineData(Puzzle.Part2, "2993")]
+    public async void TestDay15ChitonAsync(Puzzle part, string answer)
+    {
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync($"/Day15/{_queryParts[part]}");
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal(answer, responseContent);
+    }
+
+    [Theory]
     [InlineData(Puzzle.Part1Sample, "35")]
     [InlineData(Puzzle.Part1, "5597")]
     [InlineData(Puzzle.Part2Sample, "3351")]
