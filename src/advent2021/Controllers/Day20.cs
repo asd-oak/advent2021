@@ -105,9 +105,8 @@ public class Day20Controller : ControllerBase
                         index--;
                     }
                 }
-                var toInt = new int[1];
-                examineBits.CopyTo(toInt, 0);
-                var mapIndex = toInt[0];
+
+                var mapIndex = examineBits.BitsToNumber();
 
                 updatedGrid[i, j] = (enhancementsMap[mapIndex] == '#');
             }
