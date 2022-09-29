@@ -13,7 +13,7 @@ public class RequestAttributeTracingMiddleware
     }
     public async Task InvokeAsync(HttpContext httpContext, Tracer trace)
     {
-        using var span = trace.StartSpan("RequestAttributes");
+        using var span = Tracer.CurrentSpan; //trace.StartSpan("RequestAttributes");
 
         foreach (var value in _platformList)
         {
